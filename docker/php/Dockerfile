@@ -7,6 +7,8 @@ RUN groupadd -g 1000 developer && useradd -u 1000 -ms /bin/bash -g developer dev
 RUN mkdir -p /var/www/html/storage /var/www/html/bootstrap/cache /var/www/.composer \
     && chown -R developer:developer /var/www/html /var/www/.composer
 
+RUN curl -sL https://deb.nodesource.com/setup_20.x | bash -
+
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpng-dev \
@@ -17,7 +19,8 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     curl \
-    libzip-dev && \
+    libzip-dev \
+    nodejs && \
     docker-php-ext-install pdo_mysql exif pcntl zip && \
     docker-php-ext-configure gd --with-freetype --with-jpeg && \
     docker-php-ext-install gd
