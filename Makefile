@@ -46,15 +46,24 @@ watch: ## Inicia o servidor de desenvolvimento do Vite (frontend)
 logs: ## Exibe os logs de todos os serviços
 	@docker compose logs -f
 
+db-refresh: ## Apaga, recria e popula o banco de dados
+	@echo "-> Recriando e populando o banco de dados..."
+	@make artisan cmd="migrate:fresh --seed"
+	@echo "✅ Banco de dados recriado com sucesso!"
+
 test: ## Executa os testes do PHPUnit (backend)
 	@echo "-> Executando testes do PHPUnit..."
-	@docker compose exec php ./vendor/bin/phpunit
+	@docker compose exec php ./vendor/bin/phpunit --testdox
 
 test-e2e: ## Abre a interface do Cypress para testes End-to-End
 	@echo "-> Abrindo interface do Cypress..."
 	@docker compose exec php ./vendor/bin/cypress open
 
 test-all: test test-e2e ## Roda todos os testes
+
+style: ## Verifica o estilo de código com o Pint
+	@echo "-> Verificando estilo de código (PSR-12)..."
+	@docker compose exec php ./vendor/bin/pint --test -v
 
 artisan: ## Executa um comando artisan
 	@echo "-> Executando: php artisan $(cmd)"
