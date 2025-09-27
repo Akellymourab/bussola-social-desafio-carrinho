@@ -1,4 +1,4 @@
-.PHONY: help setup up down build logs test test-e2e test-all artisan watch
+.PHONY: help setup up down build logs test test-e2e test-all artisan watch cs cs-fix docs db-refresh
 
 help:
 	@echo "Comandos disponíveis:"
@@ -8,9 +8,12 @@ help:
 	@echo "  make build         - Constrói ou reconstrói as imagens e sobe os contêineres."
 	@echo "  make watch         - Inicia o servidor de desenvolvimento do Vite (frontend)."
 	@echo "  make logs          - Exibe os logs de todos os serviços."
+	@echo "  make db-refresh    - 🚮 Apaga, recria e popula o banco de dados."
 	@echo "  make test          - Executa os testes do PHPUnit (backend)."
 	@echo "  make test-e2e      - Abre a interface do Cypress (End-to-End)."
-	@echo "  make test-all      - Roda todos os testes (backend e E2E)."
+	@echo "  make cs            - 🎨 Verifica o estilo de código com o Pint (PSR-12)."
+	@echo "  make cs-fix        - ✨ Corrige o estilo de código automaticamente com o Pint."
+	@echo "  make docs          - 📚 Gera a documentação da API (Swagger)."
 	@echo "  make artisan cmd=\"\"    - Executa um comando artisan. Ex: make artisan cmd=\"migrate:fresh --seed\""
 
 setup: build
@@ -24,10 +27,10 @@ setup: build
 	@docker compose exec php php artisan key:generate
 	@echo "-> Limpando caches do Laravel..."
 	@docker compose exec php php artisan optimize:clear
-	@echo "-> Rodando as migrations do banco de dados..."
-	@docker compose exec php php artisan migrate
+	@echo "-> Rodando as migrations e seeders..."
+	@docker compose exec php php artisan migrate --seed
 	@echo "-> Ajustando permissões das pastas..."
-	@docker compose exec php chmod -R 777 storage bootstrap/cache
+	@docker compose exec php chown -R developer:developer storage bootstrap/cache
 	@echo "\n✅ Projeto configurado com sucesso! Ambiente pronto para uso. ✅\n"
 
 up: ## Sobe os contêineres Docker em background
@@ -61,9 +64,18 @@ test-e2e: ## Abre a interface do Cypress para testes End-to-End
 
 test-all: test test-e2e ## Roda todos os testes
 
-style: ## Verifica o estilo de código com o Pint
+cs: ## Verifica o estilo de código com o Pint
 	@echo "-> Verificando estilo de código (PSR-12)..."
 	@docker compose exec php ./vendor/bin/pint --test -v
+
+cs-fix: ## Corrige o estilo de código automaticamente
+	@echo "-> Corrigindo estilo de código com o Pint..."
+	@docker compose exec php ./vendor/bin/pint
+
+docs: ## Gera a documentação da API
+	@echo "-> Gerando documentação da API (Swagger)..."
+	@make artisan cmd="l5-swagger:generate"
+	@echo "✅ Documentação gerada com sucesso!"
 
 artisan: ## Executa um comando artisan
 	@echo "-> Executando: php artisan $(cmd)"
