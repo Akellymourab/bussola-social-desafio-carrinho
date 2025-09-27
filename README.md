@@ -1,6 +1,6 @@
 # Desafio Técnico: Carrinho de Compras - Bússola Social 🛒
 
-![Status da CI/CD](https://github.com/SEU-USUARIO/SEU-REPOSITORIO/actions/workflows/ci.yml/badge.svg)
+![Status da CI/CD](https://github.com/Akellymourab/bussula-social-desafio-carrinho/actions/workflows/ci.yml/badge.svg)
 
 Olá! 👋 Bem-vindo(a) à documentação deste projeto.
 
