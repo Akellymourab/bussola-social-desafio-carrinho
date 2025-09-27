@@ -1,0 +1,92 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Carrinho de Compras - Bússola Social",
+        "description": "Documentação da API para o desafio técnico da Bússola Social.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/cart/calculate": {
+            "post": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Calcula o valor final do carrinho",
+                "operationId": "43e25c7588fda68f24e30f724f251f40",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "produtos": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "nome": {
+                                                    "type": "string",
+                                                    "example": "Fone Bluetooth"
+                                                },
+                                                "valor": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 100
+                                                },
+                                                "quantidade": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "metodo_pagamento": {
+                                        "type": "string",
+                                        "example": "CARTAO_CREDITO"
+                                    },
+                                    "parcelas": {
+                                        "type": "integer",
+                                        "example": 3
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Valor final calculado com sucesso."
+                    },
+                    "422": {
+                        "description": "Erro de validação nos dados enviados."
+                    }
+                }
+            }
+        },
+        "/api/products": {
+            "get": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Lista todos os produtos",
+                "operationId": "d97d1c3727cbac49708b85f7d11f7d58",
+                "responses": {
+                    "200": {
+                        "description": "Lista de produtos retornada com sucesso."
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Cart",
+            "description": "Cart"
+        },
+        {
+            "name": "Product",
+            "description": "Product"
+        }
+    ]
+}
