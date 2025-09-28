@@ -106,8 +106,8 @@ const discount = computed(() => {
 });
 const interest = computed(() => {
     if (paymentMethod.value === 'credit_card' && installments.value > 1) {
-        const M = cart.total * Math.pow((1 + 0.01), installments.value);
-        return M - cart.total;
+        const amount = cart.total * Math.pow((1 + 0.01), installments.value);
+        return amount - cart.total;
     }
     return 0;
 });

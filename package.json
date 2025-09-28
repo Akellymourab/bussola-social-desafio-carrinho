@@ -13,7 +13,8 @@
         "cypress": "^15.3.0",
         "laravel-vite-plugin": "^2.0.1",
         "vite": "^7.0.4",
-        "vue": "^3.5.22"
+        "vue": "^3.5.22",
+        "dotenv": "^16.4.5"
     },
     "dependencies": {
         "@popperjs/core": "^2.11.8",
