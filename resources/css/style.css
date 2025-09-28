@@ -1,0 +1,33 @@
+/* Definindo variáveis de cores para fácil manutenção */
+:root {
+    --primary-color: #D9534F; /* Um tom de vermelho/rosa suave */
+    --light-pink-bg: #FEF6F6; /* Fundo rosa bem claro para os itens do carrinho */
+    --bs-body-font-family: 'Poppins', sans-serif; /* Uma fonte mais moderna e arredondada */
+    --bs-border-radius: 0.5rem; /* Bordas mais arredondadas */
+}
+
+body {
+    background-color: #FCFCFC;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: #C9302C;
+    border-color: #C9302C;
+}
+
+.summary-box {
+    border: 2px dashed #E0E0E0;
+    padding: 1.5rem;
+    border-radius: var(--bs-border-radius);
+}
+
+.cart-item-card {
+    background-color: var(--light-pink-bg);
+    border: 1px solid #FADADD;
+    border-radius: var(--bs-border-radius);
+}

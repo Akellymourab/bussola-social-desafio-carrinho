@@ -6,6 +6,8 @@ services:
     container_name: laravel-mysql-php
     volumes:
       - ./:/var/www/html
+    ports:
+      - 5173:5173
     networks:
       - app-network
     depends_on:
