@@ -24,16 +24,15 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import apiClient from '../api.js';
 import { cart } from '../store.js';
 
 const products = ref([]);
 const isLoading = ref(true);
-const apiUrl = import.meta.env.VITE_API_URL;
 
 onMounted(async () => {
     try {
-        const response = await axios.get(`${apiUrl}/products`);
+        const response = await apiClient.get('/products');
         products.value = response.data;
     } catch (error) {
         console.error("Erro ao buscar produtos:", error);
