@@ -4,9 +4,9 @@
 
 Olá! 👋 Bem-vindo(a) à documentação deste projeto.
 
-Esta é uma solução completa para o desafio técnico da Bússola Social, implementando um módulo de carrinho de compras com um backend robusto em **Laravel 12** e um frontend reativo em **Vue.js 3**. O ambiente é totalmente conteinerizado com **Docker**, garantindo uma experiência de desenvolvimento consistente e livre de complicações.
+Esta é uma solução completa para o desafio técnico da Bússola Social, implementando um módulo de carrinho de compras com um backend robusto em **Laravel 12** e um frontend reativo e desacoplado em **Vue.js 3**. O ambiente é totalmente conteinerizado com **Docker**, garantindo uma experiência de desenvolvimento consistente e livre de complicações.
 
-O objetivo foi criar um software que não apenas funciona, mas que é limpo, bem estruturado, testável e fácil de manter. Vamos mergulhar nos detalhes.
+O objetivo foi criar um software que não apenas funciona, mas que é limpo, bem estruturado, testável e fácil de manter, seguindo os princípios do Clean Code.
 
 ---
 
@@ -14,11 +14,21 @@ O objetivo foi criar um software que não apenas funciona, mas que é limpo, bem
 
 Boas ferramentas são importantes, mas a forma como as usamos é o que define a qualidade do software. Aqui estão as principais decisões por trás da estrutura deste projeto:
 
--   **Backend com Responsabilidades Claras (SOLID):** Em vez de colocar toda a lógica no Controller, as regras de negócio complexas (cálculos de desconto e juros) foram isoladas em uma classe de Serviço (`CalculationService`). Isso torna o Controller mais limpo e a lógica de negócio muito mais fácil de testar.
+#### Backend
+-   **Responsabilidades Claras (SOLID):** Em vez de colocar toda a lógica no Controller, as regras de negócio complexas (cálculos de desconto e juros) foram isoladas em uma classe de Serviço (`CalculationService`). Isso torna o Controller mais limpo e a lógica de negócio muito mais fácil de testar unitariamente.
 
 -   **Validação Centralizada e Segura (Form Requests):** A validação dos dados que chegam na API é feita por uma classe `CalculateCartRequest`. Essa abordagem do Laravel organiza as regras, aumenta a segurança e mantém o Controller focado em sua principal tarefa: orquestrar a requisição.
 
--   **Chega de "Strings Mágicas" (Enums):** Para métodos de pagamento, foi utilizado um `Enum` do PHP 8+. Isso evita erros de digitação (`'PIX'` vs `'pix'`), torna o código mais legível e muito mais fácil de dar manutenção no futuro.
+-   **Contrato de API Consistente:** Toda a comunicação entre frontend e backend (chaves de JSON, rotas) segue o padrão em inglês para consistência e alinhamento com as convenções globais de desenvolvimento.
+
+-   **Chega de "Strings Mágicas" (Enums):** Para métodos de pagamento, foi utilizado um `Enum` do PHP 8+ (`PaymentMethod`). Isso evita erros de digitação (ex: `'PIX'` vs `'pix'`), torna o código mais legível e muito mais seguro para dar manutenção.
+
+#### Frontend
+-   **Arquitetura de Componentes:** A interface foi dividida em componentes reutilizáveis e com responsabilidades únicas (`Header`, `ProductListPage`, `CartPage`, `CheckoutModal`), facilitando a manutenção e o desenvolvimento.
+
+-   **Gerenciamento de Estado Reativo:** O estado do carrinho é gerenciado de forma centralizada no arquivo `store.js` usando a Composition API do Vue (`reactive`, `computed`). Isso garante que qualquer alteração no carrinho seja refletida em toda a aplicação de forma automática e eficiente.
+
+-   **Comunicação Centralizada com a API:** Todas as chamadas `axios` são feitas através de um módulo `api.js` centralizado. Isso evita a duplicação de URLs e configurações, e facilita a adição de interceptors ou headers de autenticação no futuro.
 
 -   **Automação para Desenvolvedores (Makefile):** Para que ninguém precise decorar comandos longos de Docker ou Artisan, um `Makefile` foi criado. Com atalhos simples como `make setup` e `make test`, a produtividade aumenta e a chance de erros diminui.
 
@@ -26,14 +36,15 @@ Boas ferramentas são importantes, mas a forma como as usamos é o que define a 
 
 ### ✨ Tecnologias Utilizadas
 
-| Categoria | O que foi usado                         |
-|---|-----------------------------------------|
+| Categoria          | O que foi usado                         |
+| ------------------ | --------------------------------------- |
 | **Backend** | PHP 8.4, Laravel 12                     |
-| **Frontend**| Vue.js 3, Vite, Bootstrap               |
+| **Frontend** | Vue.js 3, Vite, Bootstrap 5             |
 | **Banco de Dados** | MySQL 8                                 |
 | **Ambiente** | Docker, Nginx, Makefile                 |
-| **Testes & Qualidade** | PHPUnit, Cypress, Laravel Pint (PSR-12) |
-| **Documentação** | Swagger (OpenAPI)                       |
+| **Testes** | PHPUnit (Unitário), Cypress (E2E)       |
+| **Qualidade** | Laravel Pint (PSR-12)                   |
+| **Documentação** | Swagger (OpenAPI via L5-Swagger)        |
 | **CI/CD** | GitHub Actions                          |
 
 ---
@@ -53,7 +64,7 @@ Com o `Makefile`, tudo fica mais simples.
 
 #### 1. Clone o Repositório
 ```bash
-git clone [https://github.com/Akellymourab/bussula-social-desafio-carrinho.git](https://github.com/Akellymourab/bussula-social-desafio-carrinho.git)
+git clone https://github.com/Akellymourab/bussula-social-desafio-carrinho.git
 cd bussula-social-desafio-carrinho
 ```
 
@@ -75,9 +86,8 @@ Pronto! Seu ambiente de desenvolvimento está 100% funcional.
 
 ### 🌐 Onde Acessar
 
--   **Aplicação Vue.js (Frontend):** ➡️ [http://localhost:5173](http://localhost:5173)
+-   **Aplicação Vue.js (Frontend):** ➡️ [http://localhost:8080](http://localhost:8080)
 -   **Documentação da API (Swagger):** ➡️ [http://localhost:8000/api/documentation](http://localhost:8000/api/documentation)
--   **Endpoint da API (Produtos):** ➡️ [http://localhost:8000/api/products](http://localhost:8000/api/products)
 
 ---
 
