@@ -77,7 +77,7 @@ make setup
 #### 3. Inicie o Servidor do Frontend
 Em um **novo terminal**, na mesma pasta, rode o comando abaixo. Ele ficará monitorando seus arquivos do Vue.js.
 ```bash
-make watch
+make dev
 ```
 
 Pronto! Seu ambiente de desenvolvimento está 100% funcional.
@@ -99,7 +99,7 @@ Use `make help` para ver todos os atalhos. Aqui estão os principais:
 |---|---|
 | `make up` / `make down` | Sobe e desce os contêineres Docker. |
 | `make test` | Roda todos os testes do backend (PHPUnit). |
-| `make test-e2e` | Abre a interface do Cypress para os testes End-to-End. |
+| `make test-e2e-run` | Roda os testes E2E com Cypress no terminal. |
 | `make cs-fix` | Corrige automaticamente o estilo do código para o padrão PSR-12. |
 | `make db-refresh`| Limpa e repopula o banco de dados do zero. |
 | `make artisan cmd="..."` | Executa qualquer comando Artisan que você precisar. |
