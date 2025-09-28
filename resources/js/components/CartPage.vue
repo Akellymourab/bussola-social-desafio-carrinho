@@ -89,9 +89,9 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import axios from 'axios';
 import { cart } from '../store.js';
 import CheckoutModal from './CheckoutModal.vue';
+import apiClient from '../api.js';
 
 defineEmits(['navigate']);
 
@@ -99,7 +99,7 @@ const paymentMethod = ref('pix');
 const installments = ref(1);
 
 const discount = computed(() => {
-    if (paymentMethod.value === 'pix' || (paymentMethod.value === 'credit_card' && installments.value == 1)) {
+    if (paymentMethod.value === 'pix' || (paymentMethod.value === 'credit_card' && installments.value === 1)) {
         return cart.total * 0.10;
     }
     return 0;
@@ -118,32 +118,33 @@ const finalTotal = computed(() => {
 const isLoading = ref(false);
 const showModal = ref(false);
 const checkoutData = ref(null);
-const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
 
 async function handleCheckout() {
     isLoading.value = true;
+
     const paymentMethodApi = paymentMethod.value === 'pix' ? 'PIX' : 'CARTAO_CREDITO';
+
     const payload = {
-        produtos: cart.items.map(item => ({
-            nome: item.name,
-            valor: parseFloat(item.price),
-            quantidade: item.quantity
+        products: cart.items.map(item => ({
+            name: item.name,
+            price: parseFloat(item.price),
+            quantity: item.quantity
         })),
-        metodo_pagamento: paymentMethodApi,
-        parcelas: installments.value,
+        payment_method: paymentMethodApi,
+        installments: installments.value,
     };
 
     try {
-        const response = await axios.post(`${apiUrl}/cart/calculate`, payload);
+        const response = await apiClient.post('/cart/calculate', payload);
 
-        if (typeof response.data.valor_total_calculado !== 'number') {
+        if (typeof response.data.price_total !== 'number') {
             throw new Error("Formato de resposta da API inválido.");
         }
 
         checkoutData.value = {
-            finalTotal: response.data.valor_total_calculado,
+            finalTotal: response.data.price_total,
             installments: installments.value,
-            installmentValue: installments.value > 0 ? response.data.valor_total_calculado / installments.value : 0,
+            installmentValue: installments.value > 0 ? response.data.price_total / installments.value : 0,
         };
         showModal.value = true;
     } catch (error) {

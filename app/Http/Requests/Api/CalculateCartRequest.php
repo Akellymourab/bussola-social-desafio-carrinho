@@ -18,12 +18,12 @@ class CalculateCartRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'produtos' => ['required', 'array'],
-            'produtos.*.nome' => ['required', 'string'],
-            'produtos.*.valor' => ['required', 'numeric', 'min:0'],
-            'produtos.*.quantidade' => ['required', 'integer', 'min:1'],
-            'metodo_pagamento' => ['required', 'string', new Enum(PaymentMethod::class)],
-            'parcelas' => ['required_if:metodo_pagamento,CARTAO_CREDITO', 'integer', 'min:1', 'max:12'],
+            'products' => ['required', 'array'],
+            'products.*.name' => ['required', 'string'],
+            'products.*.price' => ['required', 'numeric', 'min:0'],
+            'products.*.quantity' => ['required', 'integer', 'min:1'],
+            'payment_method' => ['required', 'string', new Enum(PaymentMethod::class)],
+            'installments' => ['required_if:payment_method,CARTAO_CREDITO', 'integer', 'min:1', 'max:12'],
         ];
     }
 }

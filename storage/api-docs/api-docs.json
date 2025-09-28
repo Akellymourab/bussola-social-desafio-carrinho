@@ -19,20 +19,20 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "produtos": {
+                                    "products": {
                                         "type": "array",
                                         "items": {
                                             "properties": {
-                                                "nome": {
+                                                "name": {
                                                     "type": "string",
                                                     "example": "Fone Bluetooth"
                                                 },
-                                                "valor": {
+                                                "price": {
                                                     "type": "number",
                                                     "format": "float",
                                                     "example": 100
                                                 },
-                                                "quantidade": {
+                                                "quantity": {
                                                     "type": "integer",
                                                     "example": 2
                                                 }
@@ -40,11 +40,11 @@
                                             "type": "object"
                                         }
                                     },
-                                    "metodo_pagamento": {
+                                    "payment_method": {
                                         "type": "string",
                                         "example": "CARTAO_CREDITO"
                                     },
-                                    "parcelas": {
+                                    "installments": {
                                         "type": "integer",
                                         "example": 3
                                     }

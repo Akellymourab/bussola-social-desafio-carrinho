@@ -25,13 +25,13 @@ class CartController extends Controller
      * required=true,
      * @OA\JsonContent(
      * type="object",
-     * @OA\Property(property="produtos", type="array", @OA\Items(
-     * @OA\Property(property="nome", type="string", example="Fone Bluetooth"),
-     * @OA\Property(property="valor", type="number", format="float", example=100.00),
-     * @OA\Property(property="quantidade", type="integer", example=2)
+     * @OA\Property(property="products", type="array", @OA\Items(
+     * @OA\Property(property="name", type="string", example="Fone Bluetooth"),
+     * @OA\Property(property="price", type="number", format="float", example=100.00),
+     * @OA\Property(property="quantity", type="integer", example=2)
      * )),
-     * @OA\Property(property="metodo_pagamento", type="string", example="CARTAO_CREDITO"),
-     * @OA\Property(property="parcelas", type="integer", example=3)
+     * @OA\Property(property="payment_method", type="string", example="CARTAO_CREDITO"),
+     * @OA\Property(property="installments", type="integer", example=3)
      * )
      * ),
      * @OA\Response(response="200", description="Valor final calculado com sucesso."),
@@ -42,16 +42,16 @@ class CartController extends Controller
     {
         $validated = $request->validated();
 
-        $paymentMethodEnum = PaymentMethod::from($validated['metodo_pagamento']);
+        $paymentMethodEnum = PaymentMethod::from($validated['payment_method']);
 
         $finalPrice = $this->calculationService->calculateFinalPrice(
-            $validated['produtos'],
+            $validated['products'],
             $paymentMethodEnum,
-            $validated['parcelas'] ?? 1
+            $validated['installments'] ?? 1
         );
 
         return response()->json([
-            'valor_total_calculado' => $finalPrice,
+            'price_total' => $finalPrice,
         ]);
     }
 }
