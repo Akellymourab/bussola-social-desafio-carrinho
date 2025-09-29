@@ -64,8 +64,8 @@ Com o `Makefile`, tudo fica mais simples.
 
 #### 1. Clone o Repositório
 ```bash
-git clone https://github.com/Akellymourab/bussula-social-desafio-carrinho.git
-cd bussula-social-desafio-carrinho
+git clone https://github.com/Akellymourab/bussola-social-desafio-carrinho.git
+cd bussola-social-desafio-carrinho
 ```
 
 #### 2. Execute o Setup Automatizado
